@@ -25,10 +25,24 @@ class Grade {
     public function print_grade_info() {
         foreach ([$this->id, $this->room_id, $this->name, $this->year] as $info) {
             if ($info === $this->year) {
-                echo $info->format('Y-m-d') . "<br>";
+                echo $info->format('Y-m-d') . ' | ';
             } else {
-                echo $info . '<br>';
+                echo $info . ' | ';
             }
         }
     }
+
+    // Getter/Setter
+
+    public function getId() { return $this->id; }
+    public function setId($new_id) { $this->id = $new_id; }
+
+    public function getRoomId() { return $this->room_id; }
+    public function setRoomId($new_room_id) { $this->room_id = $new_room_id; }
+
+    public function getName() { return $this->name; }
+    public function setName($new_name) { $this->name = $new_name; }
+
+    public function getYear() { return $this->year; }
+    public function setYear($new_year) { $this->year = $new_year; }
 }

@@ -33,10 +33,30 @@ class Student {
     public function print_student_info() {
         foreach ([$this->id, $this->grade_id, $this->email, $this->fullname, $this->birthday, $this->gender] as $info) {
             if ($info === $this->birthday) {
-                echo $info->format('Y-m-d') . "<br>";
+                echo $info->format('Y-m-d') . " | ";
             } else {
-                echo $info . '<br>';
+                echo $info . ' | ';
             }
         }
     }
+
+    // Getter/Setter
+
+    public function getId() { return $this->id; }
+    public function setId($new_id) { $this->id = $new_id; }
+
+    public function getGradeId() { return $this->grade_id; }
+    public function setGradeId($new_grade_id) { $this->grade_id = $new_grade_id; }
+
+    public function getEmail() { return $this->email; }
+    public function setEmail($new_email) { $this->email = $new_email; }
+
+    public function getFullname() { return $this->fullname; }
+    public function setFullname($new_fullname) { $this->fullname = $new_fullname; }
+
+    public function getBirthday() { return $this->birthday->format('Y-m-d'); }
+    public function setBirthday($new_birthday) { $this->birthday = new Datetime($new_birthday); }
+
+    public function getGender() { return $this->gender; }
+    public function setGender($new_gender) { $this->gender = $new_gender; }
 }
