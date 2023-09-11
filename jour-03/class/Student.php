@@ -30,7 +30,7 @@ class Student {
         $this->gender = $gender;
     }
 
-    public function print_student_info() {
+    public function printStudentInfo() {
         foreach ([$this->id, $this->grade_id, $this->email, $this->fullname, $this->birthday, $this->gender] as $info) {
             if ($info === $this->birthday) {
                 echo $info->format('Y-m-d') . " | ";
@@ -59,4 +59,19 @@ class Student {
 
     public function getGender() { return $this->gender; }
     public function setGender($new_gender) { $this->gender = $new_gender; }
+
+    public function findOneStudent(int $id) {
+        $db = new PDO('mysql:host=localhost;dbname=lp_official;port=3308','root', '');
+    
+        $selectStudentQuery = "SELECT * FROM `student` where `id` = :id";
+        $stmt = $db->prepare($selectStudentQuery);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        $students = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $result = new Student($students['id'], $students['grade_id'], $students['email'], $students['fullname'], new Datetime($students['birthdate']), $students['gender']);
+
+        return $result;
+    }
 }

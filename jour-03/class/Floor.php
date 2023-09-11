@@ -14,7 +14,7 @@ class Floor {
         $this->level = $level;
     }
 
-    public function print_room_info() {
+    public function printFloorInfo() {
         foreach ([$this->id, $this->name, $this->level] as $info) {
             echo $info . ' | ';
         }
@@ -29,4 +29,19 @@ class Floor {
 
     public function getCapacity() { return $this->level; }
     public function setCapacity($new_level) { $this->level = $new_level; }
+
+    public function findOneFloor(int $id) {
+        $db = new PDO('mysql:host=localhost;dbname=lp_official;port=3308','root', '');
+    
+        $selectStudentQuery = "SELECT * FROM `floor` where `id` = :id";
+        $stmt = $db->prepare($selectStudentQuery);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        $students = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $result = new Floor($students['id'], $students['name'], $students['level']);
+
+        return $result;
+    }
 }

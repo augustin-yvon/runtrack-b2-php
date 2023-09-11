@@ -22,7 +22,7 @@ class Grade {
         }
     }
 
-    public function print_grade_info() {
+    public function printGradeInfo() {
         foreach ([$this->id, $this->room_id, $this->name, $this->year] as $info) {
             if ($info === $this->year) {
                 echo $info->format('Y-m-d') . ' | ';
@@ -45,4 +45,19 @@ class Grade {
 
     public function getYear() { return $this->year; }
     public function setYear($new_year) { $this->year = $new_year; }
+
+    public function findOneGrade(int $id) {
+        $db = new PDO('mysql:host=localhost;dbname=lp_official;port=3308','root', '');
+    
+        $selectStudentQuery = "SELECT * FROM `grade` where `id` = :id";
+        $stmt = $db->prepare($selectStudentQuery);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        $students = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $result = new Grade($students['id'], $students['room_id'], $students['name'], new Datetime($students['year']));
+
+        return $result;
+    }
 }

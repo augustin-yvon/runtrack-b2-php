@@ -17,7 +17,7 @@ class Room {
         $this->capacity = $capacity;
     }
 
-    public function print_room_info() {
+    public function printRoomInfo() {
         foreach ([$this->id, $this->floor_id, $this->name, $this->capacity] as $info) {
             echo $info . ' | ';
         }
@@ -36,4 +36,19 @@ class Room {
 
     public function getCapacity() { return $this->capacity; }
     public function setCapacity($new_capacity) { $this->capacity = $new_capacity; }
+
+    public function findOneRoom(int $id) {
+        $db = new PDO('mysql:host=localhost;dbname=lp_official;port=3308','root', '');
+    
+        $selectStudentQuery = "SELECT * FROM `room` where `id` = :id";
+        $stmt = $db->prepare($selectStudentQuery);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+
+        $students = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $result = new Room($students['id'], $students['floor_id'], $students['name'], $students['capacity']);
+
+        return $result;
+    }
 }
